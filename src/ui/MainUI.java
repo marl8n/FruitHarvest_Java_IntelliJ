@@ -32,7 +32,7 @@ public class MainUI {
                 super.mouseClicked(e);
                 if(!textFieldProductionUnits.getText().isEmpty() && !comboBoxFruits.getSelectedItem().toString().isEmpty()){
                     addFruitProduction();
-                    labelProduction.setText("Procucciones" + c);
+                    setBiggestProduction();
                     bubbleSort();
                     setNumberOfUnits();
                     createTable();
@@ -72,11 +72,12 @@ public class MainUI {
     }
 
     private void bubbleSort(){
-        for (int i = 0; i < c; i++) {
-            for (int j = 0; j < c-1; j++) {
-                for (int k = 0; k < j-1; k++) {
-                    if (Integer.parseInt(fruitProductions[j][1].toString()) < Integer.parseInt(fruitProductions[j+1][1].toString())){
-                        for (int l = 0; l < 2; l++) {
+        if (c != 1){
+            for (int i = 0; i < c; i++) {
+                for (int j = 0; j < c-1; j++) {
+                    if (Integer.parseInt(fruitProductions[j][1].toString()) <
+                    Integer.parseInt(fruitProductions[j+1][1].toString())){
+                        for (int k = 0; k < 2; k++) {
                             Object buffer = fruitProductions[j][k];
                             fruitProductions[j][k] = fruitProductions[j+1][k];
                             fruitProductions[j+1][k] = buffer;
@@ -93,6 +94,21 @@ public class MainUI {
             numberOfUnits += Double.parseDouble(fruitProductions[i][1].toString());
         }
         labelTotalFruits.setText("Frutas: " + numberOfUnits);
+    }
+
+    private void setBiggestProduction(){
+        int biggestIdx = 0;
+        if (c == 1){
+            labelProduction.setText("Mas frutas: " + fruitProductions[0][0] + ", " +fruitProductions[0][1]);
+        }
+        else {
+            for (int i = 0; i < c - 1; i++) {
+                if ((Integer.parseInt(fruitProductions[biggestIdx][1].toString()) < Integer.parseInt(fruitProductions[i + 1][1].toString()))) {
+                    biggestIdx = i + 1;
+                }
+            }
+            labelProduction.setText("Mas frutas: " + fruitProductions[biggestIdx][0] + ", " +fruitProductions[biggestIdx][1]);
+        }
     }
 
 
